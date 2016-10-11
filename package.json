@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/tcr/mediakeys",
   "dependencies": {
-    "bindings": "~1.2.0",
+    "bindings": "^1.2.1",
     "newline-json": "0.0.4"
   }
 }

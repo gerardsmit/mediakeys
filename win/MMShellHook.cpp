@@ -12,7 +12,7 @@
 /////////////////////////////////////////////////////////////////////////////
 // Storage for the global data in the DLL
 
-#pragma comment(linker, "/section:HOOKDAT,RWS") 
+#pragma comment(linker, "/section:HOOKDAT,RWS")
 #pragma data_seg( "HOOKDAT" )
 HWND hNotifyWnd = NULL;
 HHOOK hShellHook = NULL;							// Handle to the Shell hook
@@ -52,7 +52,7 @@ extern "C" BOOL WINAPI DllMain (HANDLE hInst, DWORD ul_reason_for_call, LPVOID l
 #ifdef _MSC_VER
 		_RPT0(_CRT_WARN, "MMShellHook : Hook DLL unloaded\n");
 #endif
-#endif		
+#endif
 
 		return TRUE;
 
@@ -70,7 +70,7 @@ DllExport BOOL SetMMShellHook(HWND hWnd)
 	// Don't add the hook if the window ID is NULL
 	if (hWnd == NULL)
 		return FALSE;
-	
+
 	// Don't add a hook if there is already one added
 	if (hNotifyWnd != NULL)
 		return FALSE;
@@ -104,7 +104,7 @@ DllExport BOOL UnSetMMShellHook(HWND hWnd)
 {
 
 	BOOL unHooked = TRUE;
-	
+
 	// Is the window handle valid?
 	if (hWnd == NULL)
 		MessageBox(NULL, _T("Window pointer is null"), _T("Message"), MB_OK);
@@ -149,6 +149,10 @@ LRESULT CALLBACK ShellProc(int nCode, WPARAM wParam, LPARAM lParam)
 			case APPCOMMAND_MEDIA_PLAY_PAUSE:
 			case APPCOMMAND_MEDIA_PREVIOUSTRACK:
 			case APPCOMMAND_MEDIA_STOP:
+            case APPCOMMAND_BROWSER_HOME:
+            case APPCOMMAND_LAUNCH_MEDIA_SELECT:
+            case APPCOMMAND_MEDIA_REWIND:
+            case APPCOMMAND_MEDIA_FAST_FORWARD:
 				if (::PostMessage(hNotifyWnd,WM_APPCOMMAND,wParam,lParam) == 0) {
 					if (hNotifyWnd != NULL) {
 						UnSetMMShellHook(hNotifyWnd);
